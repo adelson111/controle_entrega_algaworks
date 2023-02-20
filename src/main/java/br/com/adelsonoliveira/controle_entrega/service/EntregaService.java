@@ -25,6 +25,13 @@ public class EntregaService {
         return entregaRepository.save(entrega);
     }
 
+    @Transactional
+    public void finalizar(Long id) {
+        Entrega entrega = buscar(id);
+        entrega.finalizar();
+        entregaRepository.save(entrega);
+    }
+
     public Entrega buscar(Long id) {
         return entregaRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Entrega não encontrada"));
     }

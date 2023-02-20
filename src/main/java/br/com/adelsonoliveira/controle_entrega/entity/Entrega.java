@@ -1,5 +1,6 @@
 package br.com.adelsonoliveira.controle_entrega.entity;
 
+import br.com.adelsonoliveira.controle_entrega.exception.NegocioException;
 import br.com.adelsonoliveira.controle_entrega.helper.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -66,5 +67,13 @@ public class Entrega {
         this.ocorrencias.add(ocorrencia);
 
         return ocorrencia;
+    }
+
+    public void finalizar() {
+        if (!getStatus().equals(StatusEntrega.PENDENTE)) {
+            throw new NegocioException("Entrega não pode ser finalizada");
+        }
+        setStatus(StatusEntrega.FINALIZADA);
+        setDataFinalizacao(OffsetDateTime.now());
     }
 }
