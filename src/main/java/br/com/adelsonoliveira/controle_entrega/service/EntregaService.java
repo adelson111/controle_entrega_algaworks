@@ -2,6 +2,7 @@ package br.com.adelsonoliveira.controle_entrega.service;
 
 import br.com.adelsonoliveira.controle_entrega.entity.Entrega;
 import br.com.adelsonoliveira.controle_entrega.entity.StatusEntrega;
+import br.com.adelsonoliveira.controle_entrega.exception.EntidadeNaoEncontradaException;
 import br.com.adelsonoliveira.controle_entrega.repository.EntregaRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,9 @@ public class EntregaService {
         entrega.setStatus(StatusEntrega.PENDENTE);
         entrega.setDataPedido(OffsetDateTime.now());
         return entregaRepository.save(entrega);
+    }
+
+    public Entrega buscar(Long id) {
+        return entregaRepository.findById(id).orElseThrow(() -> new EntidadeNaoEncontradaException("Entrega não encontrada"));
     }
 }
